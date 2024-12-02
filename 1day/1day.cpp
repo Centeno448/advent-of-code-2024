@@ -18,7 +18,7 @@ int main()
     std::vector<int> left_list;
     std::vector<int> right_list;
 
-    int res = 0;
+    int res = 0, res2 = 0;
 
     while (getline(in, line))
     {
@@ -36,8 +36,13 @@ int main()
 
     for (int i = 0; i < left_list.size(); i++)
     {
-        res += abs(left_list[i] - right_list[i]);
+        int left = left_list[i];
+        res += abs(left - right_list[i]);
+        int factor = count_if(right_list.cbegin(), right_list.cend(), [&left](const int &n)
+                              { return n == left; });
+        res2 += left * factor;
     }
 
     std::cout << format("day 1-1 res: {}", res) << std::endl;
+    std::cout << format("day 1-2 res: {}", res2) << std::endl;
 }
