@@ -52,8 +52,8 @@ int main(int argc, char *argv[])
     {
         int left = left_list[i];
         res += abs(left - right_list[i]);
-        int factor = count_if(right_list.cbegin(), right_list.cend(), [&left](const int &n)
-                              { return n == left; });
+        int factor = static_cast<int>(count_if(right_list.cbegin(), right_list.cend(), [&left](const int &n)
+                                               { return n == left; }));
         res2 += left * factor;
     }
 
