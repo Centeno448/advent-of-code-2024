@@ -1,10 +1,7 @@
 add_executable(1day)
 
-if(USE_TEST_INPUTS)
-    set(DAY1_INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/1day.test.txt")
-else()
-    set(DAY1_INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/1day.txt")
-endif()
+set(DAY1_INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/1day.txt")
+set(DAY1_TEST_INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/1day.test.txt")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/1day.in.h ${CMAKE_CURRENT_BINARY_DIR}/1day.h @ONLY)
 

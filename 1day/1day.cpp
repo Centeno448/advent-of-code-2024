@@ -10,11 +10,25 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-    ifstream in(INPUT_FILE, ifstream::in);
-    string line;
+    ifstream in;
 
+    if (argc < 2)
+    {
+        in.open(INPUT_FILE);
+    }
+    else if (strcmp(argv[1], "-t") == 0)
+    {
+        in.open(TEST_INPUT_FILE);
+    }
+    else
+    {
+        cout << format("Invalid argument {}", argv[1]) << std::endl;
+        return -1;
+    }
+
+    string line;
     std::vector<int> left_list;
     std::vector<int> right_list;
 
