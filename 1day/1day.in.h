@@ -1,0 +1,1 @@
+#define INPUT_FILE "@DAY1_INPUT_FILE@"
