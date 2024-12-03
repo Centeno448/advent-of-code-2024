@@ -10,6 +10,147 @@
 
 using namespace std;
 
+bool is_safe(const std::vector<int> &nums)
+{
+    int prev = nums.at(0);
+    bool ascending = false;
+
+    for (size_t i = 1; i < nums.size(); i++)
+    {
+        int element = nums.at(i);
+
+        if (i == 1)
+        {
+            if (abs(element - prev) > 3)
+            {
+                return false;
+            }
+
+            if (element == prev)
+            {
+                return false;
+            }
+
+            if (element > prev)
+            {
+                ascending = true;
+            }
+        }
+        else
+        {
+            if (abs(element - prev) > 3)
+            {
+                return false;
+            }
+
+            if (element == prev)
+            {
+                return false;
+            }
+
+            if (element > prev && !ascending || element < prev && ascending)
+            {
+                return false;
+            }
+        }
+
+        prev = element;
+    }
+
+    return true;
+}
+
+bool is_safe_dampener(const std::vector<int> &nums, const bool ignore_error)
+{
+    int prev = nums.at(0);
+    bool ascending = false;
+
+    for (size_t i = 1; i < nums.size(); i++)
+    {
+        int element = nums.at(i);
+        std::vector<int> num_copy(nums.begin(), nums.end());
+
+        if (i == 1)
+        {
+            if (abs(element - prev) > 3)
+            {
+                if (ignore_error)
+                {
+                    num_copy.erase(num_copy.begin() + i);
+                    return is_safe_dampener(num_copy, false);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (element == prev)
+            {
+                if (ignore_error)
+                {
+                    num_copy.erase(num_copy.begin() + i);
+                    return is_safe_dampener(num_copy, false);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (element > prev)
+            {
+                ascending = true;
+            }
+        }
+        else
+        {
+            if (abs(element - prev) > 3)
+            {
+                if (ignore_error)
+                {
+                    num_copy.erase(num_copy.begin() + i);
+                    return is_safe_dampener(num_copy, false);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (element == prev)
+            {
+                if (ignore_error)
+                {
+                    num_copy.erase(num_copy.begin() + i);
+                    return is_safe_dampener(num_copy, false);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (element > prev && !ascending || element < prev && ascending)
+            {
+                if (ignore_error)
+                {
+                    num_copy.erase(num_copy.begin() + i);
+                    return is_safe_dampener(num_copy, false);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        prev = element;
+    }
+
+    return true;
+}
+
 int main(int argc, char *argv[])
 {
     ifstream in;
@@ -54,37 +195,15 @@ int main(int argc, char *argv[])
         num = stoi(num_str);
         nums.push_back(num);
 
-        int current = 0, prev = 0;
-        bool ascending;
-
-        for (size_t i = 0; i < nums.size(); i++)
+        if (is_safe(nums))
         {
-            int element = nums.at(i);
-
-            if (i == 1)
-            {
-                if (abs(element - prev) > 3)
-                {
-                    return false;
-                }
-
-                if (element > prev)
-                {
-                    ascending = true;
-                }
-            }
-            else if (i != 0)
-            {
-                if (element > prev && !ascending)
-                {
-                    break;
-                }
-            }
-
-            prev = element;
+            ++res;
         }
 
-        std::cout << std::endl;
+        if (is_safe_dampener(nums, true))
+        {
+            ++res2;
+        }
     }
 
     std::cout << format("day 1-1 res: {}", res) << std::endl;
