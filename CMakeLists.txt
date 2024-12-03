@@ -6,3 +6,4 @@ set(CXX_STANDARD_REQUIRED ON)
 project(advent-of-code-2024 VERSION 1.0)
 
 add_subdirectory(1day)
+add_subdirectory(2day)
