@@ -135,6 +135,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    std::cout << format("day 1-1 res: {}", res) << std::endl;
-    std::cout << format("day 1-2 res: {}", res2) << std::endl;
+    std::cout << format("day 2-1 res: {}", res) << std::endl;
+    std::cout << format("day 2-2 res: {}", res2) << std::endl;
 }
