@@ -1,10 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
-#include <algorithm>
-#include <cmath>
 #include <format>
+#include <regex>
 
 #include "3day.h"
 
@@ -32,8 +30,18 @@ int main(int argc, char *argv[])
 
     int res = 0, res2 = 0;
 
+    std::regex mul_regex("mul\\((\\d{1,3}),(\\d{1,3})\\)");
+
     while (getline(in, line))
     {
+        smatch mul_match;
+        while (regex_search(line, mul_match, mul_regex))
+        {
+            int left = stoi(mul_match[1]);
+            int right = stoi(mul_match[2]);
+            res += left * right;
+            line = mul_match.suffix();
+        }
     }
 
     std::cout << format("day 3-1 res: {}", res) << std::endl;
