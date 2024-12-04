@@ -60,95 +60,24 @@ bool is_safe(const std::vector<int> &nums)
     return true;
 }
 
-bool is_safe_dampener(const std::vector<int> &nums, const bool ignore_error)
+bool is_safe_dampener(const std::vector<int> &nums)
 {
-    int prev = nums.at(0);
-    bool ascending = false;
-
-    for (size_t i = 1; i < nums.size(); i++)
+    if (is_safe(nums))
     {
-        int element = nums.at(i);
-        std::vector<int> num_copy(nums.begin(), nums.end());
-
-        if (i == 1)
-        {
-            if (abs(element - prev) > 3)
-            {
-                if (ignore_error)
-                {
-                    num_copy.erase(num_copy.begin() + i);
-                    return is_safe_dampener(num_copy, false);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            if (element == prev)
-            {
-                if (ignore_error)
-                {
-                    num_copy.erase(num_copy.begin() + i);
-                    return is_safe_dampener(num_copy, false);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            if (element > prev)
-            {
-                ascending = true;
-            }
-        }
-        else
-        {
-            if (abs(element - prev) > 3)
-            {
-                if (ignore_error)
-                {
-                    num_copy.erase(num_copy.begin() + i);
-                    return is_safe_dampener(num_copy, false);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            if (element == prev)
-            {
-                if (ignore_error)
-                {
-                    num_copy.erase(num_copy.begin() + i);
-                    return is_safe_dampener(num_copy, false);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            if (element > prev && !ascending || element < prev && ascending)
-            {
-                if (ignore_error)
-                {
-                    num_copy.erase(num_copy.begin() + i);
-                    return is_safe_dampener(num_copy, false);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
-        prev = element;
+        return true;
     }
 
-    return true;
+    for (size_t i = 0; i < nums.size(); ++i)
+    {
+        std::vector<int> copy(nums.begin(), nums.end());
+        copy.erase(copy.begin() + i);
+        if (is_safe(copy))
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 int main(int argc, char *argv[])
@@ -200,7 +129,7 @@ int main(int argc, char *argv[])
             ++res;
         }
 
-        if (is_safe_dampener(nums, true))
+        if (is_safe_dampener(nums))
         {
             ++res2;
         }
