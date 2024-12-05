@@ -57,6 +57,8 @@ int main(int argc, char *argv[])
         res2 += left * factor;
     }
 
+    in.close();
+
     std::cout << format("day 1-1 res: {}", res) << std::endl;
     std::cout << format("day 1-2 res: {}", res2) << std::endl;
 }
