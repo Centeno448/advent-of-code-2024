@@ -2,10 +2,23 @@
 #include <fstream>
 #include <string>
 #include <format>
+#include <vector>
 
 #include "4day.h"
 
 using namespace std;
+
+void print_matrix(const std::vector<std::vector<char>> &matrix)
+{
+    for (const auto columns : matrix)
+    {
+        for (const char c : columns)
+        {
+            std::cout << format("{} ", c);
+        }
+        std::cout << std::endl;
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -26,11 +39,20 @@ int main(int argc, char *argv[])
     }
 
     string line;
+    std::vector<std::vector<char>> char_matrix;
 
     int res = 0, res2 = 0;
 
     while (getline(in, line))
     {
+        std::vector<char> columns;
+
+        for (const char &c : line)
+        {
+            columns.push_back(c);
+        }
+
+        char_matrix.push_back(columns);
     }
 
     in.close();
