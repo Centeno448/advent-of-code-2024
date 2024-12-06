@@ -8,7 +8,9 @@
 
 using namespace std;
 
-void print_matrix(const std::vector<std::vector<char>> &matrix)
+typedef std::vector<std::vector<char>> CharMatrix;
+
+void print_matrix(const CharMatrix &matrix)
 {
     for (const auto columns : matrix)
     {
@@ -17,6 +19,22 @@ void print_matrix(const std::vector<std::vector<char>> &matrix)
             std::cout << format("{} ", c);
         }
         std::cout << std::endl;
+    }
+}
+
+void count_vertical_xmas(int &res, const CharMatrix &matrix)
+{
+    const size_t total_rows = matrix.size(), total_columns = matrix.at(0).size();
+
+    for (size_t row_index = 0; row_index < total_rows; ++row_index)
+    {
+        for (size_t column_index = 0; column_index < total_columns; ++column_index)
+        {
+            if (matrix.at(row_index).at(column_index) == 'X')
+            {
+                if (row_index -)
+            }
+        }
     }
 }
 
@@ -39,13 +57,29 @@ int main(int argc, char *argv[])
     }
 
     string line;
-    std::vector<std::vector<char>> char_matrix;
+    CharMatrix char_matrix;
 
     int res = 0, res2 = 0;
+
+    const char test[] = {'M', 'A', 'S'};
 
     while (getline(in, line))
     {
         std::vector<char> columns;
+        std::string forward_copy = line;
+        std::string backwards_copy = line;
+
+        while (forward_copy.find("XMAS") != string::npos)
+        {
+            forward_copy = forward_copy.substr(forward_copy.find("XMAS") + 4);
+            ++res;
+        }
+
+        while (backwards_copy.find("SAMX") != string::npos)
+        {
+            backwards_copy = backwards_copy.substr(backwards_copy.find("XMAS") + 4);
+            ++res;
+        }
 
         for (const char &c : line)
         {
@@ -56,6 +90,8 @@ int main(int argc, char *argv[])
     }
 
     in.close();
+
+    count_vertical_xmas(res, char_matrix);
 
     std::cout << format("day 3-1 res: {}", res) << std::endl;
     std::cout << format("day 3-2 res: {}", res2) << std::endl;
