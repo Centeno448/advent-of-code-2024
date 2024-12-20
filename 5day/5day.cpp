@@ -5,6 +5,8 @@
 #include <format>
 #include <vector>
 #include <regex>
+#include <map>
+#include <cmath>
 
 #include "5day.h"
 
@@ -16,6 +18,8 @@ struct Instruction
     int before;
     int after;
 };
+
+typedef std::map<string, Instruction> InstructionMap;
 
 int main(int argc, char *argv[])
 {
@@ -43,10 +47,11 @@ int main(int argc, char *argv[])
 
     bool parsing_instructions = true;
 
-    std::vector<Instruction> instructions;
+    InstructionMap instructions;
 
     while (getline(in, line))
     {
+
         if (line == "")
         {
             parsing_instructions = false;
@@ -61,7 +66,9 @@ int main(int argc, char *argv[])
             int before = stoi(instruction_match[1]);
             int after = stoi(instruction_match[2]);
 
-            instructions.emplace_back(before, after);
+            Instruction instruction(before, after);
+
+            instructions.insert({instruction_match[0], instruction});
         }
         else
         {
@@ -73,12 +80,46 @@ int main(int argc, char *argv[])
                 int page_num = stoi(line.substr(0, found));
                 updates.push_back(page_num);
                 line = line.substr(found + 1);
-
-                std::cout << page_num << ",";
             }
 
             int page_num = stoi(line);
             updates.push_back(page_num);
+
+            auto current = updates.cbegin();
+            bool valid = true;
+
+            while (current != updates.cend())
+            {
+                auto next = current + 1;
+                while (next != updates.cend())
+                {
+                    if (instructions.find(vformat("{}|{}", make_format_args(*current, *next))) != instructions.end())
+                    {
+                        auto res = instructions.find(vformat("{}|{}", make_format_args(*current, *next)));
+                        if (*current == res->second.after)
+                        {
+                            valid = false;
+                        }
+                    }
+                    else if (instructions.find(vformat("{}|{}", make_format_args(*next, *current))) != instructions.end())
+                    {
+                        auto res = instructions.find(vformat("{}|{}", make_format_args(*next, *current)));
+                        if (*current == res->second.after)
+                        {
+                            valid = false;
+                        }
+                    }
+                    ++next;
+                }
+                ++current;
+            }
+
+            if (valid)
+            {
+                int middle_index = static_cast<int>(ceil(static_cast<double>(updates.size()) / 2.0));
+
+                res += updates.at(middle_index - 1);
+            }
         }
     }
 
