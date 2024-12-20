@@ -85,13 +85,13 @@ int main(int argc, char *argv[])
             int page_num = stoi(line);
             updates.push_back(page_num);
 
-            auto current = updates.cbegin();
+            auto current = updates.begin();
             bool valid = true;
 
-            while (current != updates.cend())
+            while (current != updates.end())
             {
                 auto next = current + 1;
-                while (next != updates.cend())
+                while (next != updates.end())
                 {
                     if (instructions.find(vformat("{}|{}", make_format_args(*current, *next))) != instructions.end())
                     {
@@ -99,6 +99,9 @@ int main(int argc, char *argv[])
                         if (*current == res->second.after)
                         {
                             valid = false;
+                            int temp = *next;
+                            *next = *current;
+                            *current = temp;
                         }
                     }
                     else if (instructions.find(vformat("{}|{}", make_format_args(*next, *current))) != instructions.end())
@@ -107,6 +110,9 @@ int main(int argc, char *argv[])
                         if (*current == res->second.after)
                         {
                             valid = false;
+                            int temp = *next;
+                            *next = *current;
+                            *current = temp;
                         }
                     }
                     ++next;
@@ -114,11 +120,15 @@ int main(int argc, char *argv[])
                 ++current;
             }
 
+            int middle_index = static_cast<int>(ceil(static_cast<double>(updates.size()) / 2.0));
+
             if (valid)
             {
-                int middle_index = static_cast<int>(ceil(static_cast<double>(updates.size()) / 2.0));
-
                 res += updates.at(middle_index - 1);
+            }
+            else
+            {
+                res2 += updates.at(middle_index - 1);
             }
         }
     }
