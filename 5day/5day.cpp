@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string>
 #include <format>
 #include <vector>
@@ -135,6 +134,6 @@ int main(int argc, char *argv[])
 
     in.close();
 
-    std::cout << format("day 3-1 res: {}", res) << std::endl;
-    std::cout << format("day 3-2 res: {}", res2) << std::endl;
+    std::cout << format("day 5-1 res: {}", res) << std::endl;
+    std::cout << format("day 5-2 res: {}", res2) << std::endl;
 }

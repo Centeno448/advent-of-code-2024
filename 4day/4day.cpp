@@ -281,6 +281,6 @@ int main(int argc, char *argv[])
     count_xmas(res, char_matrix);
     count_x_mases(res2, char_matrix);
 
-    std::cout << format("day 3-1 res: {}", res) << std::endl;
-    std::cout << format("day 3-2 res: {}", res2) << std::endl;
+    std::cout << format("day 4-1 res: {}", res) << std::endl;
+    std::cout << format("day 4-2 res: {}", res2) << std::endl;
 }
